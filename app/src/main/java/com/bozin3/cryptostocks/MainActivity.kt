@@ -2,6 +2,7 @@ package com.bozin3.cryptostocks
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.bozin3.cryptostocks.R
 
 class MainActivity : AppCompatActivity() {
 

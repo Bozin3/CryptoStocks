@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_scheme"
+    app:startDestination="@id/cryptoStocksFragment">
+
+    <fragment
+        android:id="@+id/cryptoDetailsFragment"
+        android:name="com.bozin3.cryptostocks.ui.CryptoDetailsFragment"
+        android:label="crypto_details_fragment"
+        tools:layout="@layout/crypto_details_fragment" >
+        <action
+            android:id="@+id/action_cryptoDetailsFragment_to_cryptoStocksFragment"
+            app:destination="@id/cryptoStocksFragment"
+            app:popUpTo="@+id/cryptoStocksFragment"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="coinId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/cryptoStocksFragment"
+        android:name="com.bozin3.cryptostocks.ui.CryptoStocksFragment"
+        android:label="crypto_stocks_fragment"
+        tools:layout="@layout/crypto_stocks_fragment" >
+        <action
+            android:id="@+id/action_cryptoStocksFragment_to_cryptoDetailsFragment"
+            app:destination="@id/cryptoDetailsFragment" />
+    </fragment>
+</navigation>
