@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="cryptoDomainModel"
+            type="com.bozin3.cryptostocks.models.CryptoDomainModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/tvSymbol"
+            style="@style/CoinSymbolStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@{cryptoDomainModel.symbol}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvName"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="BTC" />
+
+        <TextView
+            android:id="@+id/tvName"
+            style="@style/CoinNameStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="@{cryptoDomainModel.name}"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvSymbol"
+            app:layout_constraintEnd_toStartOf="@+id/tvPrice"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="3"
+            app:layout_constraintStart_toEndOf="@+id/tvSymbol"
+            tools:text="Bitcoin" />
+
+        <TextView
+            android:id="@+id/tvPrice"
+            style="@style/CoinDataInfoStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvName"
+            app:layout_constraintEnd_toStartOf="@+id/tvPercentage"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="3"
+            app:layout_constraintStart_toEndOf="@+id/tvName"
+            app:price="@{cryptoDomainModel.price}"
+            tools:text="15$" />
+
+        <TextView
+            android:id="@+id/tvPercentage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            app:percent="@{cryptoDomainModel.percentageHour}"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvPrice"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toEndOf="@+id/tvPrice"
+            tools:text="15%"
+            style="@style/CoinDataInfoStyle"/>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            style="@style/DividerStyle" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

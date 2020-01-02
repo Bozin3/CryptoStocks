@@ -3,4 +3,8 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="negativePercent">#9a0007</color>
+    <color name="positivePercent">#00c853</color>
+    <color name="symbolColor">#00897b</color>
+    <color name="dividerColor">#cecece</color>
 </resources>

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.bozin3.cryptostocks.R
+import com.bozin3.cryptostocks.databinding.CryptoDetailsFragmentBinding
 
 class CryptoDetailsFragment : Fragment() {
 
@@ -15,19 +16,19 @@ class CryptoDetailsFragment : Fragment() {
         fun newInstance() = CryptoDetailsFragment()
     }
 
-    private lateinit var viewModel: CryptoDetailsViewModel
+    // This will be initialized when we invoke it for the first time
+    private val viewModel: CryptoDetailsViewModel by lazy {
+        ViewModelProviders.of(this).get(CryptoDetailsViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.crypto_details_fragment, container, false)
-    }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(CryptoDetailsViewModel::class.java)
-        // TODO: Use the ViewModel
+        val binding = CryptoDetailsFragmentBinding.inflate(inflater)
+
+        return binding.root
     }
 
 }

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">CryptoStocks</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="error_message">Failure: %s</string>
 </resources>

@@ -4,11 +4,18 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
+
+    dataBinding {
+        enabled = true
+    }
+
     defaultConfig {
         applicationId "com.bozin3.cryptostocks"
         minSdkVersion 21
@@ -50,4 +57,18 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$lifeCycleLibVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifeCycleLibVersion"
 
+    // Coroutines
+    def coroutineVersion = "1.1.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
+
+    // Networking
+    def retrofitVersion = "2.6.0"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+
+    // Moshi JSON parser
+    def moshiVersion = "1.8.0"
+    implementation "com.squareup.moshi:moshi:$moshiVersion"
+    implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
 }
