@@ -1,4 +1,4 @@
-package com.bozin3.cryptostocks.network
+package com.bozin3.cryptostocks.models
 
 import com.squareup.moshi.Json
 

@@ -67,7 +67,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            app:percent="@{cryptoDomainModel.percentageHour}"
+            app:percent="@{cryptoDomainModel.percentageChangeHour}"
             app:layout_constraintBaseline_toBaselineOf="@+id/tvPrice"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

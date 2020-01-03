@@ -1,5 +1,6 @@
 package com.bozin3.cryptostocks.network
 
+import com.bozin3.cryptostocks.models.CryptoNetworkModel
 import com.squareup.moshi.Json
 
 data class Status(
@@ -9,7 +10,7 @@ data class Status(
     val errorMessage: String?
 )
 
-data class Response(
+data class ApiResponse(
     val status: Status,
     val data: List<CryptoNetworkModel>
 )

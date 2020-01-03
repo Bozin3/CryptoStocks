@@ -7,8 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-import com.bozin3.cryptostocks.R
 import com.bozin3.cryptostocks.databinding.CryptoDetailsFragmentBinding
+import com.bozin3.cryptostocks.viewmodels.CryptoDetailsViewModel
+import com.bozin3.cryptostocks.viewmodels.DetailsViewModelFactory
 
 class CryptoDetailsFragment : Fragment() {
 
@@ -18,7 +19,9 @@ class CryptoDetailsFragment : Fragment() {
 
     // This will be initialized when we invoke it for the first time
     private val viewModel: CryptoDetailsViewModel by lazy {
-        ViewModelProviders.of(this).get(CryptoDetailsViewModel::class.java)
+        ViewModelProviders.of(this,
+            DetailsViewModelFactory(activity!!.application))
+            .get(CryptoDetailsViewModel::class.java)
     }
 
     override fun onCreateView(

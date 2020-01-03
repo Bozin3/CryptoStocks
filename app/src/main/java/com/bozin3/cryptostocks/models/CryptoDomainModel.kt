@@ -9,7 +9,7 @@ data class CryptoDomainModel(
     var symbol: String,
     var name: String,
     var price: Float,
-    var percentageHour: Float,
-    var percentageDay: Float,
-    var percentageWeek: Float
+    var percentageChangeHour: Float,
+    var percentageChangeDay: Float,
+    var percentageChangeWeek: Float
 )

@@ -2,7 +2,6 @@ package com.bozin3.cryptostocks.ui
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +12,8 @@ import androidx.lifecycle.Observer
 import com.bozin3.cryptostocks.R
 import com.bozin3.cryptostocks.databinding.CryptoStocksFragmentBinding
 import com.bozin3.cryptostocks.ui.adapter.CryptoDataAdapter
+import com.bozin3.cryptostocks.viewmodels.CryptoStocksViewModel
+import com.bozin3.cryptostocks.viewmodels.StocksViewModelFactory
 
 class CryptoStocksFragment : Fragment() {
 
@@ -22,7 +23,9 @@ class CryptoStocksFragment : Fragment() {
 
     // This will be initialized when we invoke it for the first time
     private val viewModel: CryptoStocksViewModel by lazy {
-        ViewModelProviders.of(this).get(CryptoStocksViewModel::class.java)
+        ViewModelProviders.of(this,
+            StocksViewModelFactory(activity!!.application))
+            .get(CryptoStocksViewModel::class.java)
     }
 
     private lateinit var cryptoDataAdapter: CryptoDataAdapter
