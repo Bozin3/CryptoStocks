@@ -9,6 +9,12 @@
         <item name="android:fontFamily">casual</item>
     </style>
 
+    <style name="ToolbarTextStyle">
+        <item name="android:fontFamily">casual</item>
+        <item name="android:textSize">@dimen/toolbar_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="CoinSymbolStyle">
         <item name="android:textSize">@dimen/coin_symbol_text_size</item>
         <item name="android:textStyle">bold</item>

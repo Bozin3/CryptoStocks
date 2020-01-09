@@ -8,20 +8,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bozin3.cryptostocks.databinding.CryptoListItemBinding
 import com.bozin3.cryptostocks.models.CryptoDomainModel
 
-class CryptoDataAdapter : ListAdapter<CryptoDomainModel, CryptoDataAdapter.CryptoViewHolder >(DiffCallback) {
+class CryptoDataAdapter(val itemClickListener: OnItemClickListener<CryptoDomainModel>) : ListAdapter<CryptoDomainModel, CryptoDataAdapter.CryptoViewHolder >(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CryptoViewHolder {
         return CryptoViewHolder(CryptoListItemBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
 
-    override fun onBindViewHolder(holder: CryptoViewHolder, position: Int) =  holder.bind(getItem(position))
+    override fun onBindViewHolder(holder: CryptoViewHolder, position: Int) =  holder.bind(getItem(position),itemClickListener)
 
     class CryptoViewHolder (
         private var binding: CryptoListItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(cryptoDomainModel: CryptoDomainModel) {
+        fun bind(cryptoDomainModel: CryptoDomainModel, itemClickListener: OnItemClickListener<CryptoDomainModel>) {
             binding.cryptoDomainModel = cryptoDomainModel
+            binding.itemClickListener = itemClickListener
             binding.executePendingBindings()
         }
 
@@ -36,4 +37,8 @@ class CryptoDataAdapter : ListAdapter<CryptoDomainModel, CryptoDataAdapter.Crypt
             return oldItem.id == newItem.id
         }
     }
+}
+
+class OnItemClickListener<T>(val clickListener: (itemClicked:T) -> Unit) {
+    fun onClick(itemClicked:T) = clickListener(itemClicked)
 }

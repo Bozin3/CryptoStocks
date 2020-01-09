@@ -3,6 +3,7 @@ package com.bozin3.cryptostocks.utils
 import com.bozin3.cryptostocks.localdb.entity.CryptoDatabaseModel
 import com.bozin3.cryptostocks.models.CryptoNetworkModel
 import com.bozin3.cryptostocks.models.CryptoDomainModel
+import timber.log.Timber
 
 fun List<CryptoNetworkModel>.asDomainModel(): List<CryptoDomainModel> {
     return this.map {
@@ -35,13 +36,14 @@ fun List<CryptoNetworkModel>.asDatabaseModel(): List<CryptoDatabaseModel> {
     }
 }
 
-fun List<CryptoDatabaseModel>.toDomainModel(): List<CryptoDomainModel> {
+suspend fun List<CryptoDatabaseModel>.toDomainModel(): List<CryptoDomainModel> {
     return this.map {
+        Timber.d("transforming db allData to domain model : ${Thread.currentThread().name}")
         it.toDomainModel()
     }
 }
 
-fun CryptoDatabaseModel.toDomainModel(): CryptoDomainModel {
+suspend fun CryptoDatabaseModel.toDomainModel(): CryptoDomainModel {
     return CryptoDomainModel(
         id = this.id,
         symbol = this.symbol,

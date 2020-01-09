@@ -1,7 +1,7 @@
 package com.bozin3.cryptostocks.models
 
 /**
- * Domain objects are plain Kotlin data classes that represent the things in our app. These are the
+ * Domain objects are plain Kotlin allData classes that represent the things in our app. These are the
  * objects that should be displayed on screen, or manipulated by the app.
  */
 data class CryptoDomainModel(

@@ -16,6 +16,9 @@ interface CryptoDao {
     @Query("select * from crypto where id=:id")
     fun getCryptoById(id: Int): LiveData<CryptoDatabaseModel>
 
+    @Query("select * from crypto where name like :query")
+    fun filterCryptoData(query: String): List<CryptoDatabaseModel>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll( videos: List<CryptoDatabaseModel>)
 

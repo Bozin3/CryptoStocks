@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/cryptoDetailsFragment"
         android:name="com.bozin3.cryptostocks.ui.CryptoDetailsFragment"
-        android:label="crypto_details_fragment"
-        tools:layout="@layout/crypto_details_fragment" >
+        android:label="Details"
+        tools:layout="@layout/crypto_details_fragment">
         <action
             android:id="@+id/action_cryptoDetailsFragment_to_cryptoStocksFragment"
             app:destination="@id/cryptoStocksFragment"
@@ -17,13 +17,13 @@
             app:popUpToInclusive="true" />
         <argument
             android:name="coinId"
-            app:argType="integer" />
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/cryptoStocksFragment"
         android:name="com.bozin3.cryptostocks.ui.CryptoStocksFragment"
-        android:label="crypto_stocks_fragment"
-        tools:layout="@layout/crypto_stocks_fragment" >
+        android:label="Crypto Stocks"
+        tools:layout="@layout/crypto_stocks_fragment">
         <action
             android:id="@+id/action_cryptoStocksFragment_to_cryptoDetailsFragment"
             app:destination="@id/cryptoDetailsFragment" />
