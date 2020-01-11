@@ -3,4 +3,11 @@
     <string name="unknown_error">Unknown error</string>
     <string name="error_message">Failure: %s</string>
     <string name="search">Search</string>
+    <string name="total_supply">Total Supply:</string>
+    <string name="max_supply">Max. Supply:</string>
+    <string name="market_cap">Market Cap: %s$</string>
+    <string name="change_1h">Change(1h):</string>
+    <string name="change_24h">Change(24h):</string>
+    <string name="change_7d">Change(7d):</string>
+    <string name="network_error">Network Error</string>
 </resources>

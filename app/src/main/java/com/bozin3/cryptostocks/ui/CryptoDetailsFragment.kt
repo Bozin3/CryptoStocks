@@ -17,19 +17,19 @@ class CryptoDetailsFragment : Fragment() {
         fun newInstance() = CryptoDetailsFragment()
     }
 
-    // This will be initialized when we invoke it for the first time
-    private val viewModel: CryptoDetailsViewModel by lazy {
-        ViewModelProviders.of(this,
-            DetailsViewModelFactory(activity!!.application))
-            .get(CryptoDetailsViewModel::class.java)
-    }
+    private lateinit var viewModel: CryptoDetailsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = CryptoDetailsFragmentBinding.inflate(inflater)
+        val selectedCrypto = CryptoDetailsFragmentArgs.fromBundle(arguments!!).coinId
+        viewModel = ViewModelProviders.of(this,DetailsViewModelFactory(selectedCrypto,activity!!.application)).get(CryptoDetailsViewModel::class.java)
+
+        val binding = CryptoDetailsFragmentBinding.inflate(inflater,container,false)
+        binding.setLifecycleOwner(this)
+        binding.detailsViewModel = viewModel
 
         return binding.root
     }

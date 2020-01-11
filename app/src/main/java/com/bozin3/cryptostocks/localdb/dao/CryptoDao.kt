@@ -14,7 +14,7 @@ interface CryptoDao {
     fun getAllData(): LiveData<List<CryptoDatabaseModel>>
 
     @Query("select * from crypto where id=:id")
-    fun getCryptoById(id: Int): LiveData<CryptoDatabaseModel>
+    fun getCryptoById(id: Long): LiveData<CryptoDatabaseModel>
 
     @Query("select * from crypto where name like :query")
     fun filterCryptoData(query: String): List<CryptoDatabaseModel>

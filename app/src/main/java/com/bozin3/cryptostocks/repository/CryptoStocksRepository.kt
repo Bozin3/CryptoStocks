@@ -43,6 +43,10 @@ class CryptoStocksRepository(private val database: AppDatabase) {
         }
     }
 
+    fun getCryptoById(id: Long): LiveData<CryptoDatabaseModel> {
+        return database.getCryptoDao().getCryptoById(id)
+    }
+
     fun filterData(queryText: String): List<CryptoDatabaseModel> {
         val queryStr = "%$queryText%"
         return database.getCryptoDao().filterCryptoData(queryStr)

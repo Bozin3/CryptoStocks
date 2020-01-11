@@ -13,10 +13,10 @@ class StocksViewModelFactory(val app: Application) : ViewModelProvider.Factory {
     }
 }
 
-class DetailsViewModelFactory(val app: Application) : ViewModelProvider.Factory {
+class DetailsViewModelFactory(val coinId: Long, val app: Application) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CryptoDetailsViewModel::class.java)) {
-            return CryptoDetailsViewModel(app) as T
+            return CryptoDetailsViewModel(coinId, app) as T
         }
         throw IllegalArgumentException("Unable to construct viewmodel")
     }

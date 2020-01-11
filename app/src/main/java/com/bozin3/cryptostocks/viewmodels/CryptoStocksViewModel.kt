@@ -14,6 +14,11 @@ class CryptoStocksViewModel(app: Application) : AndroidViewModel(app) {
 
     private val cryptoStocksRepository = CryptoStocksRepository(AppDatabase.getInstance(app))
 
+    private val _loadingStatus = MutableLiveData<Boolean>()
+
+    val loadingStatus: LiveData<Boolean>
+        get() = _loadingStatus
+
     private val _allData: LiveData<List<CryptoDatabaseModel>> = cryptoStocksRepository.allData
 
     val allData = _allData.switchMap {
@@ -36,6 +41,7 @@ class CryptoStocksViewModel(app: Application) : AndroidViewModel(app) {
 
     init {
         // on start we are retrieving all allData from local db
+        _loadingStatus.value = true
         viewModelScope.launch {
             Timber.d("before refreshData() : ${Thread.currentThread().name}")
             cryptoStocksRepository.refreshData()
@@ -45,5 +51,9 @@ class CryptoStocksViewModel(app: Application) : AndroidViewModel(app) {
 
     fun filterData(query: String){
         queryText.value = query
+    }
+
+    fun doneLoading(){
+        _loadingStatus.value = false
     }
 }

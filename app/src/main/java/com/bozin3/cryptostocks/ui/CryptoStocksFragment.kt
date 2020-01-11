@@ -31,7 +31,7 @@ class CryptoStocksFragment : Fragment() {
             .get(CryptoStocksViewModel::class.java)
     }
 
-    private lateinit var cryptoDataAdapter: CryptoDataAdapter
+    private var cryptoDataAdapter: CryptoDataAdapter? = null
 
     private val mHandler  by lazy {
         Handler()
@@ -42,7 +42,7 @@ class CryptoStocksFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = CryptoStocksFragmentBinding.inflate(inflater)
+        val binding = CryptoStocksFragmentBinding.inflate(inflater, container, false)
         binding.setLifecycleOwner(this)
 
         cryptoDataAdapter = CryptoDataAdapter(OnItemClickListener {
@@ -54,17 +54,28 @@ class CryptoStocksFragment : Fragment() {
         binding.cryptoDataRecyclerView.adapter = cryptoDataAdapter
 
         viewModel.allData.observe(this, Observer { cryptoData ->
-            cryptoDataAdapter.submitList(cryptoData)
+            if(cryptoData.isNotEmpty()){
+                viewModel.doneLoading()
+            }
+            cryptoDataAdapter?.submitList(cryptoData)
         })
 
-        viewModel.filteredData.observe(this, Observer {
-            cryptoDataAdapter.submitList(it)
+        viewModel.filteredData.observe(viewLifecycleOwner, Observer {
+            cryptoDataAdapter?.submitList(it)
         })
 
-        viewModel.error.observe(this, Observer { errorMessage ->
+        viewModel.loadingStatus.observe(viewLifecycleOwner, Observer {isLoading ->
+            binding.progressBar.visibility = if(isLoading) {
+                View.VISIBLE
+            }else{
+                View.GONE
+            }
+        })
 
-            val error = getString(R.string.error_message,errorMessage)
-            Toast.makeText(this.activity,error,Toast.LENGTH_LONG).show()
+        viewModel.error.observe(viewLifecycleOwner, Observer { errorMessage ->
+
+            Timber.e("Error: $errorMessage")
+            Toast.makeText(activity, getString(R.string.network_error), Toast.LENGTH_LONG).show()
         })
 
         setHasOptionsMenu(true)
@@ -106,7 +117,9 @@ class CryptoStocksFragment : Fragment() {
         mHandler.removeCallbacksAndMessages(null)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        cryptoDataAdapter = null
+        super.onDestroyView()
     }
+
 }

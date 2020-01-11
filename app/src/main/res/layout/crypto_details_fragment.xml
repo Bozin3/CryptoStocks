@@ -2,7 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
+        <variable
+            name="detailsViewModel"
+            type="com.bozin3.cryptostocks.viewmodels.CryptoDetailsViewModel" />
 
     </data>
 
@@ -10,6 +15,206 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.CryptoDetailsFragment">
+
+        <TextView
+            android:id="@+id/tvSymbol"
+            style="@style/CoinSymbolStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:textSize="24sp"
+            android:text="@{detailsViewModel.selectedCrypto.symbol}"
+            app:layout_constraintEnd_toStartOf="@+id/tvName"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/indicator"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="BTC" />
+
+        <TextView
+            android:id="@+id/tvName"
+            style="@style/CoinNameStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="@{detailsViewModel.selectedCrypto.name}"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvSymbol"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tvSymbol"
+            tools:text="Bitcoin" />
+
+        <View
+            android:id="@+id/indicator"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:background="@{detailsViewModel.selectedCrypto.percentageChangeHour}"
+            app:layout_constraintBottom_toBottomOf="@+id/tvSymbol"
+            app:layout_constraintEnd_toStartOf="@+id/tvSymbol"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvSymbol" />
+
+        <TextView
+            android:id="@+id/tvPrice"
+            style="@style/CoinDataInfoStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:textSize="24sp"
+            app:price="@{detailsViewModel.selectedCrypto.price}"
+            app:layout_constraintBottom_toTopOf="@+id/separator"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Price: 18000$" />
+
+        <View
+            android:id="@+id/separator"
+            style="@style/DividerStyle"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvMarketCap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSymbol"
+            app:market_cap="@{detailsViewModel.selectedCrypto.marketCap}"
+            tools:text="Market Cap: 180000000" />
+
+        <TextView
+            android:id="@+id/tvTotalSupplyTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textStyle="bold"
+            android:text="@string/total_supply"
+            app:layout_constraintBottom_toTopOf="@+id/tvTotalSupply"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvMarketCap"
+            app:layout_constraintVertical_chainStyle="packed"
+            />
+
+        <TextView
+            android:id="@+id/tvMaxSupplyTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textStyle="bold"
+            android:text="@string/max_supply"
+            app:layout_constraintBottom_toTopOf="@+id/tvMaxSupply"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTotalSupply"
+            />
+
+        <TextView
+            android:id="@+id/tvTotalSupply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
+            app:supply="@{detailsViewModel.selectedCrypto.totalSupply}"
+            app:layout_constraintBottom_toTopOf="@+id/tvMaxSupplyTitle"
+            app:layout_constraintEnd_toEndOf="@+id/tvTotalSupplyTitle"
+            app:layout_constraintStart_toStartOf="@+id/tvTotalSupplyTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvTotalSupplyTitle"
+            tools:text="150000000" />
+
+        <TextView
+            android:id="@+id/tvMaxSupply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:supply="@{detailsViewModel.selectedCrypto.maxSupply}"
+            app:layout_constraintBottom_toTopOf="@+id/tvPrice"
+            app:layout_constraintEnd_toEndOf="@+id/tvMaxSupplyTitle"
+            app:layout_constraintStart_toStartOf="@+id/tvMaxSupplyTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvMaxSupplyTitle"
+            tools:text="150000000" />
+
+
+        <TextView
+            android:id="@+id/tvChangeHour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:percent="@{detailsViewModel.selectedCrypto.percentageChangeHour}"
+            app:layout_constraintBottom_toTopOf="@+id/tvChangeDay"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvMarketCap"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="14%" />
+
+        <TextView
+            android:id="@+id/tvChangeDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:percent="@{detailsViewModel.selectedCrypto.percentageChangeDay}"
+            app:layout_constraintBottom_toTopOf="@+id/tvChangeWeek"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvChangeHour"
+            tools:text="15%" />
+
+        <TextView
+            android:id="@+id/tvChangeWeek"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            app:percent="@{detailsViewModel.selectedCrypto.percentageChangeWeek}"
+            app:layout_constraintBottom_toTopOf="@+id/tvPrice"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvChangeDay"
+            tools:text="21%" />
+
+        <TextView
+            android:id="@+id/tvChangeHourTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@string/change_1h"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvChangeHour"
+            app:layout_constraintEnd_toStartOf="@id/barrier2" />
+
+        <TextView
+            android:id="@+id/tvChangeDayTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@string/change_24h"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvChangeDay"
+            app:layout_constraintEnd_toStartOf="@id/barrier2" />
+
+        <TextView
+            android:id="@+id/tvChangeWeekTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@string/change_7d"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvChangeWeek"
+            app:layout_constraintEnd_toStartOf="@id/barrier2" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="start"
+            app:constraint_referenced_ids="tvChangeWeek,tvChangeHour,tvChangeDay"
+            tools:layout_editor_absoluteX="411dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
