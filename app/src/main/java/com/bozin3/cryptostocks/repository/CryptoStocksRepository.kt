@@ -2,7 +2,7 @@ package com.bozin3.cryptostocks.repository
 
 import androidx.lifecycle.*
 import com.bozin3.cryptostocks.localdb.AppDatabase
-import com.bozin3.cryptostocks.localdb.entity.CryptoDatabaseModel
+import com.bozin3.cryptostocks.localdb.entity.Crypto
 import com.bozin3.cryptostocks.models.CryptoNetworkModel
 import com.bozin3.cryptostocks.network.ApiResponse
 import com.bozin3.cryptostocks.network.CryptoApi
@@ -18,9 +18,9 @@ class CryptoStocksRepository(private val database: AppDatabase) {
     val error: LiveData<String>
         get() = _error
 
-    val allData: LiveData<List<CryptoDatabaseModel>> =  database.getCryptoDao().getAllData()
+    val allData: LiveData<List<Crypto>> =  database.getCryptoDao().getAllData()
 
-    suspend fun refreshData() {
+    suspend fun syncData() {
         try {
             val response = downloadDataFromNetwork()
 
@@ -43,11 +43,11 @@ class CryptoStocksRepository(private val database: AppDatabase) {
         }
     }
 
-    fun getCryptoById(id: Long): LiveData<CryptoDatabaseModel> {
+    fun getCryptoById(id: Long): LiveData<Crypto> {
         return database.getCryptoDao().getCryptoById(id)
     }
 
-    fun filterData(queryText: String): List<CryptoDatabaseModel> {
+    fun filterData(queryText: String): LiveData<List<Crypto>> {
         val queryStr = "%$queryText%"
         return database.getCryptoDao().filterCryptoData(queryStr)
     }
@@ -59,14 +59,14 @@ class CryptoStocksRepository(private val database: AppDatabase) {
         }
     }
 
-    private suspend fun transformToDatabaseModel(networkData : List<CryptoNetworkModel>): List<CryptoDatabaseModel> {
+    private suspend fun transformToDatabaseModel(networkData : List<CryptoNetworkModel>): List<Crypto> {
         return withContext(Dispatchers.Default){
             Timber.d("transforming allData to db model : ${Thread.currentThread().name}")
             networkData.asDatabaseModel()
         }
     }
 
-    private suspend fun insertData(databaseList: List<CryptoDatabaseModel>){
+    private suspend fun insertData(databaseList: List<Crypto>){
         return withContext(Dispatchers.IO){
             Timber.d("inserting allData : ${Thread.currentThread().name}")
             database.getCryptoDao().insertAll(databaseList)

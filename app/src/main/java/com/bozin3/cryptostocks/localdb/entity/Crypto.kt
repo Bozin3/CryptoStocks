@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "crypto")
-data class CryptoDatabaseModel(
+data class Crypto(
     @PrimaryKey val id: Long,
     @ColumnInfo val symbol: String,
     @ColumnInfo val name: String,

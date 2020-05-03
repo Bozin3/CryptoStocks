@@ -6,9 +6,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bozin3.cryptostocks.databinding.CryptoListItemBinding
-import com.bozin3.cryptostocks.models.CryptoDomainModel
+import com.bozin3.cryptostocks.localdb.entity.Crypto
 
-class CryptoDataAdapter(val itemClickListener: OnItemClickListener<CryptoDomainModel>) : ListAdapter<CryptoDomainModel, CryptoDataAdapter.CryptoViewHolder >(DiffCallback) {
+class CryptoDataAdapter(val itemClickListener: OnItemClickListener<Crypto>)
+    : ListAdapter<Crypto, CryptoDataAdapter.CryptoViewHolder >(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CryptoViewHolder {
         return CryptoViewHolder(CryptoListItemBinding.inflate(LayoutInflater.from(parent.context),parent,false))
@@ -20,21 +21,21 @@ class CryptoDataAdapter(val itemClickListener: OnItemClickListener<CryptoDomainM
         private var binding: CryptoListItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(cryptoDomainModel: CryptoDomainModel, itemClickListener: OnItemClickListener<CryptoDomainModel>) {
-            binding.cryptoDomainModel = cryptoDomainModel
+        fun bind(crypto: Crypto, itemClickListener: OnItemClickListener<Crypto>) {
+            binding.cryptoData = crypto
             binding.itemClickListener = itemClickListener
             binding.executePendingBindings()
         }
 
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<CryptoDomainModel>() {
-        override fun areItemsTheSame(oldItem: CryptoDomainModel, newItem: CryptoDomainModel): Boolean {
-            return oldItem === newItem
+    companion object DiffCallback : DiffUtil.ItemCallback<Crypto>() {
+        override fun areItemsTheSame(oldItem: Crypto, newItem: Crypto): Boolean {
+            return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: CryptoDomainModel, newItem: CryptoDomainModel): Boolean {
-            return oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: Crypto, newItem: Crypto): Boolean {
+            return oldItem == oldItem
         }
     }
 }

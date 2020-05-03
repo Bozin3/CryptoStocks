@@ -6,21 +6,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.bozin3.cryptostocks.localdb.AppDatabase
-import com.bozin3.cryptostocks.localdb.entity.CryptoDatabaseModel
+import com.bozin3.cryptostocks.localdb.entity.Crypto
 import com.bozin3.cryptostocks.repository.CryptoStocksRepository
 
-class CryptoDetailsViewModel(coinId: Long, val app: Application) : AndroidViewModel(app) {
+class CryptoDetailsViewModel(val app: Application) : AndroidViewModel(app) {
 
     private val cryptoStocksRepository = CryptoStocksRepository(AppDatabase.getInstance(app))
 
     private val _selectedCryptoId = MutableLiveData<Long>()
 
-    val selectedCrypto: LiveData<CryptoDatabaseModel> = Transformations.switchMap(_selectedCryptoId){id ->
+    val selectedCrypto: LiveData<Crypto> = Transformations.switchMap(_selectedCryptoId){ id ->
         cryptoStocksRepository.getCryptoById(id)
     }
 
-    init {
-        _selectedCryptoId.value = coinId
+    public fun getCryptoData(id: Long) {
+        _selectedCryptoId.value = id
     }
 
 }

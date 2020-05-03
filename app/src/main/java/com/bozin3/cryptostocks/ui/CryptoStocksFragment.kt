@@ -14,22 +14,11 @@ import com.bozin3.cryptostocks.databinding.CryptoStocksFragmentBinding
 import com.bozin3.cryptostocks.ui.adapter.CryptoDataAdapter
 import com.bozin3.cryptostocks.ui.adapter.OnItemClickListener
 import com.bozin3.cryptostocks.viewmodels.CryptoStocksViewModel
-import com.bozin3.cryptostocks.viewmodels.StocksViewModelFactory
 import timber.log.Timber
-
 
 class CryptoStocksFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = CryptoStocksFragment()
-    }
-
-    // This will be initialized when we invoke it for the first time
-    private val viewModel: CryptoStocksViewModel by lazy {
-        ViewModelProviders.of(this,
-            StocksViewModelFactory(activity!!.application))
-            .get(CryptoStocksViewModel::class.java)
-    }
+    private lateinit var viewModel: CryptoStocksViewModel
 
     private var cryptoDataAdapter: CryptoDataAdapter? = null
 
@@ -53,15 +42,13 @@ class CryptoStocksFragment : Fragment() {
 
         binding.cryptoDataRecyclerView.adapter = cryptoDataAdapter
 
-        viewModel.allData.observe(this, Observer { cryptoData ->
+        viewModel = ViewModelProviders.of(this).get(CryptoStocksViewModel::class.java)
+
+        viewModel.cryptoData.observe(this, Observer { cryptoData ->
             if(cryptoData.isNotEmpty()){
                 viewModel.doneLoading()
             }
             cryptoDataAdapter?.submitList(cryptoData)
-        })
-
-        viewModel.filteredData.observe(viewLifecycleOwner, Observer {
-            cryptoDataAdapter?.submitList(it)
         })
 
         viewModel.loadingStatus.observe(viewLifecycleOwner, Observer {isLoading ->

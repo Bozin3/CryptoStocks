@@ -3,10 +3,8 @@ package com.bozin3.cryptostocks.viewmodels
 import android.app.Application
 import androidx.lifecycle.*
 import com.bozin3.cryptostocks.localdb.AppDatabase
-import com.bozin3.cryptostocks.localdb.entity.CryptoDatabaseModel
-import com.bozin3.cryptostocks.models.CryptoDomainModel
+import com.bozin3.cryptostocks.localdb.entity.Crypto
 import com.bozin3.cryptostocks.repository.CryptoStocksRepository
-import com.bozin3.cryptostocks.utils.toDomainModel
 import kotlinx.coroutines.*
 import timber.log.Timber
 
@@ -19,32 +17,27 @@ class CryptoStocksViewModel(app: Application) : AndroidViewModel(app) {
     val loadingStatus: LiveData<Boolean>
         get() = _loadingStatus
 
-    private val _allData: LiveData<List<CryptoDatabaseModel>> = cryptoStocksRepository.allData
-
-    val allData = _allData.switchMap {
-        liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-            Timber.d("transforming db allData to domain model : ${Thread.currentThread().name}")
-            emit(it.toDomainModel())
-        }
-    }
+    val error: LiveData<String> =  cryptoStocksRepository.error
 
     private val queryText: MutableLiveData<String> = MutableLiveData()
 
-    val filteredData: LiveData<List<CryptoDomainModel>> = queryText.switchMap {
-        liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-            Timber.d("transforming db filteredData to domain model : ${Thread.currentThread().name}")
-            emit(cryptoStocksRepository.filterData(it).toDomainModel())
+    val cryptoData: LiveData<List<Crypto>> = queryText.switchMap {query ->
+        if(query.isNullOrEmpty()) {
+            cryptoStocksRepository.allData
+        } else {
+            cryptoStocksRepository.filterData(query)
         }
     }
-
-    val error: LiveData<String> =  cryptoStocksRepository.error
 
     init {
         // on start we are retrieving all allData from local db
         _loadingStatus.value = true
+        // get all data on start
+        this.filterData("")
+
         viewModelScope.launch {
-            Timber.d("before refreshData() : ${Thread.currentThread().name}")
-            cryptoStocksRepository.refreshData()
+            Timber.d("before syncData() : ${Thread.currentThread().name}")
+            cryptoStocksRepository.syncData()
         }
 
     }

@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="cryptoDomainModel"
-            type="com.bozin3.cryptostocks.models.CryptoDomainModel" />
+            name="cryptoData"
+            type="com.bozin3.cryptostocks.localdb.entity.Crypto" />
 
         <variable
             name="itemClickListener"
@@ -16,7 +16,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{(view) -> itemClickListener.onClick(cryptoDomainModel)}">
+        android:onClick="@{(view) -> itemClickListener.onClick(cryptoData)}">
 
 
         <TextView
@@ -27,7 +27,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="@{cryptoDomainModel.symbol}"
+            android:text="@{cryptoData.symbol}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tvName"
             app:layout_constraintHorizontal_bias="0.5"
@@ -46,7 +46,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
             android:fontFamily="sans-serif-smallcaps"
-            android:text="@{cryptoDomainModel.name}"
+            android:text="@{cryptoData.name}"
             app:layout_constraintBaseline_toBaselineOf="@+id/tvSymbol"
             app:layout_constraintEnd_toStartOf="@+id/tvPrice"
             app:layout_constraintHorizontal_bias="0.5"
@@ -65,7 +65,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_weight="3"
             app:layout_constraintStart_toEndOf="@+id/tvName"
-            app:price="@{cryptoDomainModel.price}"
+            app:price="@{cryptoData.price}"
             tools:text="15$" />
 
         <TextView
@@ -80,7 +80,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintStart_toEndOf="@+id/tvPrice"
-            app:percent="@{cryptoDomainModel.percentageChangeHour}"
+            app:percent="@{cryptoData.percentageChangeHour}"
             tools:text="15%" />
 
         <View
