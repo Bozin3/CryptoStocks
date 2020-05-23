@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="detailsViewModel"
-            type="com.bozin3.cryptostocks.viewmodels.CryptoDetailsViewModel" />
+            name="crypto"
+            type="com.bozin3.cryptostocks.localdb.entity.Crypto" />
 
     </data>
 
@@ -24,7 +24,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:text="@{detailsViewModel.selectedCrypto.symbol}"
+            android:text="@{crypto.symbol}"
             android:textSize="24sp"
             app:layout_constraintEnd_toStartOf="@+id/tvName"
             app:layout_constraintHorizontal_bias="0.5"
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="@{detailsViewModel.selectedCrypto.name}"
+            android:text="@{crypto.name}"
             app:layout_constraintBaseline_toBaselineOf="@+id/tvSymbol"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -49,7 +49,7 @@
             android:id="@+id/indicator"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            app:background="@{detailsViewModel.selectedCrypto.percentageChangeHour}"
+            app:background="@{crypto.percentageChangeHour}"
             app:layout_constraintBottom_toBottomOf="@+id/tvSymbol"
             app:layout_constraintEnd_toStartOf="@+id/tvSymbol"
             app:layout_constraintHorizontal_bias="0.5"
@@ -65,7 +65,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:textSize="24sp"
-            app:price="@{detailsViewModel.selectedCrypto.price}"
+            app:price="@{crypto.price}"
             app:layout_constraintBottom_toTopOf="@+id/separator"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -91,7 +91,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvSymbol"
-            app:market_cap="@{detailsViewModel.selectedCrypto.marketCap}"
+            app:market_cap="@{crypto.marketCap}"
             tools:text="Market Cap: 180000000" />
 
         <TextView
@@ -128,7 +128,7 @@
             app:layout_constraintBottom_toTopOf="@+id/tvMaxSupplyTitle"
             app:layout_constraintStart_toStartOf="@+id/tvTotalSupplyTitle"
             app:layout_constraintTop_toBottomOf="@+id/tvTotalSupplyTitle"
-            app:supply="@{detailsViewModel.selectedCrypto.totalSupply}"
+            app:supply="@{crypto.totalSupply}"
             tools:text="150000000" />
 
         <TextView
@@ -139,7 +139,7 @@
             app:layout_constraintBottom_toTopOf="@+id/tvPrice"
             app:layout_constraintStart_toStartOf="@+id/tvMaxSupplyTitle"
             app:layout_constraintTop_toBottomOf="@+id/tvMaxSupplyTitle"
-            app:supply="@{detailsViewModel.selectedCrypto.maxSupply}"
+            app:supply="@{crypto.maxSupply}"
             tools:text="150000000" />
 
 
@@ -153,7 +153,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvMarketCap"
             app:layout_constraintVertical_chainStyle="packed"
-            app:percent="@{detailsViewModel.selectedCrypto.percentageChangeHour}"
+            app:percent="@{crypto.percentageChangeHour}"
             tools:text="14%" />
 
         <TextView
@@ -165,7 +165,7 @@
             app:layout_constraintBottom_toTopOf="@+id/tvChangeWeek"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvChangeHour"
-            app:percent="@{detailsViewModel.selectedCrypto.percentageChangeDay}"
+            app:percent="@{crypto.percentageChangeDay}"
             tools:text="15%" />
 
         <TextView
@@ -176,7 +176,7 @@
             app:layout_constraintBottom_toTopOf="@+id/tvPrice"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvChangeDay"
-            app:percent="@{detailsViewModel.selectedCrypto.percentageChangeWeek}"
+            app:percent="@{crypto.percentageChangeWeek}"
             tools:text="21%" />
 
         <TextView

@@ -1,52 +1,61 @@
 package com.bozin3.cryptostocks.viewmodels
 
-import android.app.Application
 import androidx.lifecycle.*
-import com.bozin3.cryptostocks.localdb.AppDatabase
 import com.bozin3.cryptostocks.localdb.entity.Crypto
 import com.bozin3.cryptostocks.repository.CryptoStocksRepository
-import kotlinx.coroutines.*
-import timber.log.Timber
+import com.bozin3.cryptostocks.repository.Result
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CryptoStocksViewModel(app: Application) : AndroidViewModel(app) {
-
-    private val cryptoStocksRepository = CryptoStocksRepository(AppDatabase.getInstance(app))
-
-    private val _loadingStatus = MutableLiveData<Boolean>()
-
-    val loadingStatus: LiveData<Boolean>
-        get() = _loadingStatus
-
-    val error: LiveData<String> =  cryptoStocksRepository.error
+class CryptoStocksViewModel @Inject constructor(val cryptoStocksRepo: CryptoStocksRepository) : ViewModel() {
 
     private val queryText: MutableLiveData<String> = MutableLiveData()
-
     val cryptoData: LiveData<List<Crypto>> = queryText.switchMap {query ->
         if(query.isNullOrEmpty()) {
-            cryptoStocksRepository.allData
+            cryptoStocksRepo.getAllData()
         } else {
-            cryptoStocksRepository.filterData(query)
+            cryptoStocksRepo.filterData(query)
         }
     }
 
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean>
+        get() = _loading
+
+    private val _error = MutableLiveData<String>()
+    val error: LiveData<String>
+        get() = _error
+
     init {
-        // on start we are retrieving all allData from local db
-        _loadingStatus.value = true
         // get all data on start
         this.filterData("")
 
         viewModelScope.launch {
-            Timber.d("before syncData() : ${Thread.currentThread().name}")
-            cryptoStocksRepository.syncData()
-        }
+            setLoading(true)
+            val result = cryptoStocksRepo.syncData()
+            setLoading(false)
 
+            if(result.status == Result.Status.ERROR) {
+                result.message?.let {
+                    setError(it)
+                }
+            }
+        }
     }
 
-    fun filterData(query: String){
+    fun filterData(query: String) {
         queryText.value = query
     }
 
-    fun doneLoading(){
-        _loadingStatus.value = false
+    fun setError(message: String) {
+        _error.value = message
+    }
+
+    fun setLoading(isLoading: Boolean) {
+        _loading.value = isLoading
+    }
+
+    override fun onCleared() {
+        super.onCleared()
     }
 }

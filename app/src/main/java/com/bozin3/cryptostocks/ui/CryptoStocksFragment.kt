@@ -1,5 +1,6 @@
 package com.bozin3.cryptostocks.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.view.*
@@ -14,16 +15,27 @@ import com.bozin3.cryptostocks.databinding.CryptoStocksFragmentBinding
 import com.bozin3.cryptostocks.ui.adapter.CryptoDataAdapter
 import com.bozin3.cryptostocks.ui.adapter.OnItemClickListener
 import com.bozin3.cryptostocks.viewmodels.CryptoStocksViewModel
+import com.bozin3.cryptostocks.viewmodels.ViewModelFactory
+import dagger.android.support.AndroidSupportInjection
 import timber.log.Timber
+import javax.inject.Inject
 
 class CryptoStocksFragment : Fragment() {
 
-    private lateinit var viewModel: CryptoStocksViewModel
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    lateinit var viewModel: CryptoStocksViewModel
 
     private var cryptoDataAdapter: CryptoDataAdapter? = null
 
     private val mHandler  by lazy {
         Handler()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        AndroidSupportInjection.inject(this)
     }
 
     override fun onCreateView(
@@ -42,16 +54,13 @@ class CryptoStocksFragment : Fragment() {
 
         binding.cryptoDataRecyclerView.adapter = cryptoDataAdapter
 
-        viewModel = ViewModelProviders.of(this).get(CryptoStocksViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory)[CryptoStocksViewModel::class.java]
 
         viewModel.cryptoData.observe(this, Observer { cryptoData ->
-            if(cryptoData.isNotEmpty()){
-                viewModel.doneLoading()
-            }
             cryptoDataAdapter?.submitList(cryptoData)
         })
 
-        viewModel.loadingStatus.observe(viewLifecycleOwner, Observer {isLoading ->
+        viewModel.loading.observe(viewLifecycleOwner, Observer {isLoading ->
             binding.progressBar.visibility = if(isLoading) {
                 View.VISIBLE
             }else{

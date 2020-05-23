@@ -1,61 +1,59 @@
 package com.bozin3.cryptostocks.repository
 
 import androidx.lifecycle.*
-import com.bozin3.cryptostocks.localdb.AppDatabase
+import com.bozin3.cryptostocks.localdb.dao.CryptoDao
 import com.bozin3.cryptostocks.localdb.entity.Crypto
 import com.bozin3.cryptostocks.models.CryptoNetworkModel
 import com.bozin3.cryptostocks.network.ApiResponse
-import com.bozin3.cryptostocks.network.CryptoApi
+import com.bozin3.cryptostocks.network.CryptoApiService
 import com.bozin3.cryptostocks.utils.asDatabaseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import javax.inject.Inject
 
-class CryptoStocksRepository(private val database: AppDatabase) {
+class CryptoStocksRepository @Inject constructor(private val cryptoDao: CryptoDao, private val cryptoService: CryptoApiService) {
 
-    private val _error = MutableLiveData<String>()
+    suspend fun syncData(): Result{
 
-    val error: LiveData<String>
-        get() = _error
+        var result = Result.success()
 
-    val allData: LiveData<List<Crypto>> =  database.getCryptoDao().getAllData()
-
-    suspend fun syncData() {
         try {
             val response = downloadDataFromNetwork()
 
             // if there is no error, we transform the network allData to database model in the default dispatcher
             if(response.status.errorCode == 0){
-
                 val databaseList = transformToDatabaseModel(response.data)
-
                 // saving allData in local db
                 insertData(databaseList)
-
             }else{
-
                 // if error code is not zero, then we have some problem
-                _error.value = response.status.errorMessage?: "Unknown error!"
+                result = Result.error(response.status.errorMessage?: "Something wrong happened, please try again")
             }
-
         }catch (exception: Exception){
-            _error.value = exception.message
+            result = Result.error(exception.message?: "Something wrong happened, please try again")
         }
+
+        return result
+    }
+
+    fun getAllData(): LiveData<List<Crypto>> {
+        return cryptoDao.getAllData()
     }
 
     fun getCryptoById(id: Long): LiveData<Crypto> {
-        return database.getCryptoDao().getCryptoById(id)
+        return cryptoDao.getCryptoById(id)
     }
 
     fun filterData(queryText: String): LiveData<List<Crypto>> {
         val queryStr = "%$queryText%"
-        return database.getCryptoDao().filterCryptoData(queryStr)
+        return cryptoDao.filterCryptoData(queryStr)
     }
 
     private suspend fun downloadDataFromNetwork(): ApiResponse {
         return withContext(Dispatchers.IO){
             Timber.d("downloading allData from network :  ${Thread.currentThread().name}")
-            CryptoApi.service.getStocksData()
+            cryptoService.getStocksData()
         }
     }
 
@@ -69,7 +67,7 @@ class CryptoStocksRepository(private val database: AppDatabase) {
     private suspend fun insertData(databaseList: List<Crypto>){
         return withContext(Dispatchers.IO){
             Timber.d("inserting allData : ${Thread.currentThread().name}")
-            database.getCryptoDao().insertAll(databaseList)
+            cryptoDao.insertAll(databaseList)
         }
     }
 }
